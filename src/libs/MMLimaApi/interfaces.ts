@@ -43,3 +43,35 @@ export interface Datastream {
   category_name: string;
   result?: any;
 }
+
+export interface EndpointVisualization {}
+
+export interface Visualization {}
+
+export interface EndpointMain {
+  resources: "http://api.datosabiertos.munlima.gob.pe/api/v2/resources/";
+  datastreams: "http://api.datosabiertos.munlima.gob.pe/api/v2/datastreams/";
+  datasets: "http://api.datosabiertos.munlima.gob.pe/api/v2/datasets/";
+  visualizations: "http://api.datosabiertos.munlima.gob.pe/api/v2/visualizations/";
+  dashboards: "http://api.datosabiertos.munlima.gob.pe/api/v2/dashboards/";
+  sources: "http://api.datosabiertos.munlima.gob.pe/api/v2/sources/";
+  tags: "http://api.datosabiertos.munlima.gob.pe/api/v2/tags/";
+  categories: "http://api.datosabiertos.munlima.gob.pe/api/v2/categories/";
+  stats: "http://api.datosabiertos.munlima.gob.pe/api/v2/stats/";
+  "account/resources": "http://api.datosabiertos.munlima.gob.pe/api/v2/account/resources/";
+  "account/children": "http://api.datosabiertos.munlima.gob.pe/api/v2/account/children/";
+}
+
+export interface Main {
+  resources: string;
+  datastreams: string;
+  datasets: string;
+  visualizations: string;
+  dashboards: string;
+  sources: string;
+  tags: string;
+  categories: string;
+  stats: string;
+  accountResources: string;
+  accountChildren: string;
+}

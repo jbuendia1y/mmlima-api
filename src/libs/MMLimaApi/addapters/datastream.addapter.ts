@@ -1,65 +1,10 @@
 import { Datastream, EndpointDatastream } from "../interfaces";
 
 /**
- * @typedef {{
- * status: any
- * description: string
- * parameters: any[]
- * tags: string[]
- * last_revision_id: any
- * timestamp?: number
- * created_at: number
- * title: string
- * modified_at: number
- * category_id: number
- * methods: any
- * sources: string[]
- * total_revisions: any
- * frequency: string
- * link: string
- * user: string
- * status_str: any
- * guid: string
- * category_name: string
- * result?: any
- * }} EndpointDatastream
- */
-
-/**
- * @typedef {{
- * status: any
- * description: string
- * parameters: any[]
- * tags: string[]
- * last_revision_id: any
- * timestamp?: Date
- * created_at: Date
- * title: string
- * modified_at: Date
- * category_id: number
- * methods: any
- * sources: string[]
- * total_revisions: any
- * frequency: string
- * link: string
- * user: string
- * status_str: any
- * guid: string
- * category_name: string
- * result?: any
- * }} Datastream
- */
-
-/**
  * Create Datastream Addapted
- * @param {EndpointDatastream} ed
- * @returns {Datastream} DataStream
  */
 export function createDatastreamAddapted(ed: EndpointDatastream): Datastream {
-  /**
-   * @type {Datastream}
-   */
-  const formatted = {
+  const formatted: Datastream = {
     category_id: ed.category_id,
     category_name: ed.category_name,
     timestamp: ed.timestamp ? new Date(ed.timestamp) : undefined,

@@ -1,59 +1,56 @@
+import {
+  createMainAddapted,
+  createVisualizationAddapted,
+  createDatastreamAddapted,
+} from "./addapters";
+import {
+  Datastream,
+  EndpointDatastream,
+  EndpointMain,
+  EndpointVisualization,
+  Visualization,
+} from "./interfaces";
+import { Repository, RepositoryConfig } from "./repositories";
 import axios from "axios";
-import { createDatastreamAddapted } from "./addapters/datastream.addapter";
-import { Datastream, EndpointDatastream } from "./interfaces";
 
 /**
  * # MMLimaApi
  * Municipalidad metropolitana de Lima API no oficial.
  * @example
- * const api = new MMLimaApi("MY_AUTH_KEY")
- * await api.datastreams()
+ * const api = new MMLimaApi({
+ *  auth_key: "MY_AUTH_KEY"
+ * })
+ * await api.datastreams.findAll()
  */
 export class MMLimaApi {
   private baseUrl = "http://api.datosabiertos.munlima.gob.pe/api/v2";
+  private config: RepositoryConfig;
 
-  public authKey: string;
+  readonly datastreams: Repository<Datastream, EndpointDatastream>;
+  readonly visualizations: Repository<Visualization, EndpointVisualization>;
 
-  /**
-   *
-   * @param {string} authKey
-   */
-  constructor(authKey: string) {
-    this.authKey = authKey;
+  constructor(config: RepositoryConfig) {
+    this.config = config;
+
+    this.datastreams = new Repository(
+      "datastreams",
+      createDatastreamAddapted,
+      this.config
+    );
+
+    this.visualizations = new Repository(
+      "visualizations",
+      createVisualizationAddapted,
+      this.config
+    );
   }
 
-  /**
-   * Datastreams method
-   * @returns {Promise<import("../addapters/datastream.addapter").Datastream[]>} Datastreams
-   */
-  async datastreams(): Promise<Datastream[]> {
-    const url =
-      this.baseUrl + `/datastreams/?format=json&auth_key=${this.authKey}`;
-    const res = await axios.get<EndpointDatastream[]>(url).then((v) => ({
-      ...v,
-      data: v.data.map(createDatastreamAddapted),
-    }));
-
-    return res.data;
-  }
-
-  /**
-   * Datastream method
-   * @param {string} guid
-   * @param {{ limit: number }} options
-   * @returns {Promise<import("../addapters/datastream.addapter").Datastream>} Datastream
-   */
-  async datastream(
-    guid: string,
-    options = {
-      limit: 50,
-    }
-  ): Promise<Datastream> {
-    const url = `${this.baseUrl}/datastreams/${guid}/data.json/?auth_key=${this.authKey}&limit=${options.limit}`;
-    const res = await axios.get<EndpointDatastream>(url).then((v) => ({
-      ...v,
-      data: createDatastreamAddapted(v.data),
-    }));
+  async findAll() {
+    const res = await axios
+      .get<EndpointMain>(this.baseUrl, {
+        params: this.config,
+      })
+      .then((res) => ({ ...res, data: createMainAddapted(res.data) }));
 
     return res.data;
   }

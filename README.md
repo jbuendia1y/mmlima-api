@@ -3,7 +3,7 @@
 Municipalidad metropolitana de Lima API no oficial.
 Libreria para el manejo de la Municipalidad Metropolitana de Lima API
 
-Creada para el mejor consumo de la api web, tipada con JsDocs.
+Creada para el mejor consumo de la api web, tipada con Typescript y documentada con JSDocs.
 
 Instalación con npm
 
@@ -17,6 +17,8 @@ Ejemplo de uso
 const MMLimaApi = require("mmlima-api");
 // Para obtener su auth_key, visite :
 // https://datosabiertos.munlima.gob.pe/developers/
-const api = MMLimaApi("MY AUTH KEY");
-const res = await api.datastreams();
+const api = MMLimaApi({
+  auth_key: "MY_AUTH_KEY",
+});
+const res = await api.datastreams.findAll();
 ```
